@@ -5,14 +5,15 @@
 
 def validate( block_data ):
 # Check whether the centre block is a bomb, a number, or an invalid input  
-  bomb_count=0  
-  for i in [0,2]:
-    for j in [0,2]:
-      if i != 1 and j != 1:
+  bomb_count=0
+  for i in range(0,3):
+    for j in range(0,3):
+      if i != 1 or j != 1:
+        print (block_data[i][j],"at", i, j)
         if block_data [i][j] == -1:
-          bomb_count=bomb_count+1
-
-# Skip bombs, send an error on invalid input, verify number 
+          bomb_count=bomb_count+1  
+          print(bomb_count)    
+#  Skip bombs, send an error on invalid input, verify numbers
   if type(block_data [1][1]) == str:
     return "invalid input (letter)"
   elif block_data [1][1] == -1:
@@ -22,10 +23,56 @@ def validate( block_data ):
   if bomb_count == block_data [1][1]:
     return "valid input"
 
+def edge_validate(block_data): 
+  #Loop for each row and column
+  bomb_count2 = 0
+  for r in [0,2]:
+    for c in [0,2]:
+      #Check surrounding numbers for bombs  
+      #Ignore numbers outside of the grid
+      if r < 2:
+        if block_data [r+1][c] == -1:
+          bomb_count2=bomb_count2+1
+      if r < 2 and c < 2:
+        if block_data [r+1][c+1] == -1:
+          bomb_count2=bomb_count2+1
+      if c < 2:
+        if block_data [r][c+1] == -1:
+          bomb_count2=bomb_count2+1
+      if r > 1 and c < 2:
+        if block_data [r-1][c+1] == -1:
+          bomb_count2=bomb_count2+1
+      if r > 1:
+        if block_data [r-1][c] == -1:
+          bomb_count2=bomb_count2+1
+      if r > 1 and c > 1:
+        if block_data [r-1][c-1] == -1:
+          bomb_count2=bomb_count2+1
+      if c > 1:
+        if block_data [r][c-1] == -1:
+          bomb_count2=bomb_count2+1
+      if r < 2 and c > 1:
+        if block_data [r+1][c-1] == -1:
+          bomb_count2=bomb_count2+1
+
+      #Check if surrounded number is valid
+      if block_data [r][c] == bomb_count2:
+        r=r
+        print (bomb_count2)
+        print (r, c)
+      #If false, break loop and output invalid
+      if block_data [r][c] != bomb_count2 and block_data [r][c] != -1:
+        print (bomb_count2)
+        print (r, c)
+        r = 10
+        c = 10
+        return "invalid input"
+  return "valid input"
 
 grid = [
   [-1,1,0],
-  [1,1,0],
+  [-1,3,-1],
   [0,0,0]
 ]
+
 print (validate(grid))
