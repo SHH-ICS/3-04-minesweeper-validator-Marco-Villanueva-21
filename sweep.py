@@ -24,42 +24,52 @@ def validate( block_data ):
     return "valid input"
 
 def edge_validate(block_data): 
+
   #Loop for each row and column
-  bomb_count2 = 0
-  for r in [0,2]:
-    for c in [0,2]:
+  for r in range(0,3):
+    for c in range(0,3):
+      bomb_count2 = 0
+
       #Check surrounding numbers for bombs  
       #Ignore numbers outside of the grid
       if r < 2:
         if block_data [r+1][c] == -1:
           bomb_count2=bomb_count2+1
+          print("coordinates ", r, ",", c, " found a bomb at ", r+1, c)
       if r < 2 and c < 2:
         if block_data [r+1][c+1] == -1:
           bomb_count2=bomb_count2+1
+          print("coordinates ", r, ",", c, " found a bomb at ", r+1, c+1)
       if c < 2:
         if block_data [r][c+1] == -1:
           bomb_count2=bomb_count2+1
-      if r > 1 and c < 2:
+          print("coordinates ", r, ",", c, " found a bomb at ", r, c+1)
+      if r > 0 and c < 2:
         if block_data [r-1][c+1] == -1:
           bomb_count2=bomb_count2+1
-      if r > 1:
+          print("coordinates ", r, ",", c, " found a bomb at ", r-1, c+1)
+      if r > 0:
         if block_data [r-1][c] == -1:
           bomb_count2=bomb_count2+1
-      if r > 1 and c > 1:
+          print("coordinates ", r, ",", c, " found a bomb at ", r-1, c)
+      if r > 0 and c > 0:
         if block_data [r-1][c-1] == -1:
           bomb_count2=bomb_count2+1
-      if c > 1:
+          print("coordinates ", r, ",", c, " found a bomb at ", r-1, c-1)
+      if c > 0:
         if block_data [r][c-1] == -1:
           bomb_count2=bomb_count2+1
-      if r < 2 and c > 1:
+          print("coordinates ", r, ",", c, " found a bomb at ", r, c-1)
+      if r < 2 and c > 0:
         if block_data [r+1][c-1] == -1:
           bomb_count2=bomb_count2+1
-
+          print("coordinates ", r, ",", c, " found a bomb at ", r+1, c-1)
+      
       #Check if surrounded number is valid
-      if block_data [r][c] == bomb_count2:
-        r=r
-        print (bomb_count2)
-        print (r, c)
+      # if block_data [r][c] == bomb_count2:
+      #   c=c
+      #   print (bomb_count2)
+      #   print (r, c)
       #If false, break loop and output invalid
       if block_data [r][c] != bomb_count2 and block_data [r][c] != -1:
         print (bomb_count2)
@@ -70,9 +80,9 @@ def edge_validate(block_data):
   return "valid input"
 
 grid = [
-  [-1,1,0],
-  [-1,3,-1],
-  [0,0,0]
+  [1,2,-1],
+  [-1,3,2],
+  [1,2,-1]
 ]
 
-print (validate(grid))
+print (edge_validate(grid))
